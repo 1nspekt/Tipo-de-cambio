@@ -1,0 +1,30 @@
+name: Actualizar TRMNL Banxico
+
+on:
+  schedule:
+    # Se ejecuta a las 13:00 UTC (son las 7:00 AM hora CDMX aprox)
+    - cron: '0 13 * * *'
+  # Esto permite que puedas ejecutarlo manualmente con un botón para probar
+  workflow_dispatch:
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar código del repositorio
+        uses: actions/checkout@v3
+
+      - name: Instalar Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Instalar librerías necesarias
+        run: pip install requests
+
+      - name: Ejecutar el script main.py
+        env:
+          # Aquí conectamos los secretos de la caja fuerte con el código
+          BANXICO_TOKEN: ${{ secrets.BANXICO_TOKEN }}
+          TRMNL_WEBHOOK_URL: ${{ secrets.TRMNL_WEBHOOK_URL }}
+        run: python main.py
