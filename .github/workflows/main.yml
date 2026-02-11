@@ -2,10 +2,13 @@ name: Actualizar TRMNL Banxico
 
 on:
   schedule:
-    # Se ejecuta a las 13:00 UTC (son las 7:00 AM hora CDMX aprox)
-    - cron: '0 13 * * *'
-  # Esto permite que puedas ejecutarlo manualmente con un botón para probar
-  workflow_dispatch:
+    # 1. Apertura (8:00 AM CDMX es 14:00 UTC)
+    - cron: '0 14 * * *'
+    
+    # 2. Cierre/Post-FIX (3:00 PM CDMX es 21:00 UTC)
+    - cron: '0 21 * * *'
+  
+  workflow_dispatch: # Para que puedas picar el botón manualmente si quieres
 
 jobs:
   run-script:
