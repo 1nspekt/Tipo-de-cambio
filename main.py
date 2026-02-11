@@ -49,3 +49,59 @@ def send_to_trmnl(rates):\
 if __name__ == "__main__":\
     rates = get_rates()\
     send_to_trmnl(rates)}
+import requests
+import os
+import json
+
+# --- CONFIGURACIÓN SEGURA ---
+# Ahora le decimos al código: "Busca estas variables en el entorno de ejecución"
+BANXICO_TOKEN = os.environ.get("BANXICO_TOKEN")
+TRMNL_WEBHOOK_URL = os.environ.get("TRMNL_WEBHOOK_URL")
+
+# IDs de series (USD FIX y Euro)
+SERIES = "SF43718,SF46410"
+URL_BANXICO = f"https://www.banxico.org.mx/SieAPIRest/service/v1/series/{SERIES}/datos/oportunos"
+
+def get_rates():
+    if not BANXICO_TOKEN:
+        print("Error: No se encontró el Token de Banxico")
+        return None
+
+    headers = {"Bmx-Token": BANXICO_TOKEN}
+    response = requests.get(URL_BANXICO, headers=headers)
+    
+    if response.status_code != 200:
+        print(f"Error conectando a Banxico: {response.status_code}")
+        return None
+
+    data = response.json()
+    rates = {}
+    
+    for serie in data['bmx']['series']:
+        amount = float(serie['datos'][0]['dato'])
+        formatted = "{:.2f}".format(amount)
+        
+        if serie['idSerie'] == "SF43718":
+            rates['usd'] = formatted
+        elif serie['idSerie'] == "SF46410":
+            rates['eur'] = formatted
+            
+    return rates
+
+def send_to_trmnl(rates):
+    if not rates:
+        return
+
+    payload = {
+        "merge_variables": {
+            "usd": rates.get('usd', '0.00'),
+            "eur": rates.get('eur', '0.00')
+        }
+    }
+    # Enviamos la petición POST al Webhook
+    requests.post(TRMNL_WEBHOOK_URL, json=payload)
+    print(f"Datos enviados: USD {rates.get('usd')} - EUR {rates.get('eur')}")
+
+if __name__ == "__main__":
+    rates = get_rates()
+    send_to_trmnl(rates)
