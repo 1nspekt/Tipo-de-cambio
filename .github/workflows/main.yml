@@ -22,6 +22,7 @@ jobs:
       - name: Instalar librerías necesarias
         # Agregamos 'beautifulsoup4' para poder leer la página del DOF
         run: pip install requests beautifulsoup4
+        run: pip install requests yfinance pytz
 
       - name: Ejecutar el script main.py
         env:
