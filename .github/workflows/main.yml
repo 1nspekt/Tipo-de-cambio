@@ -20,7 +20,8 @@ jobs:
           python-version: '3.9'
 
       - name: Instalar librerías necesarias
-        run: pip install requests
+        # Agregamos 'yfinance' al final de esta línea
+        run: pip install requests yfinance
 
       - name: Ejecutar el script main.py
         env:
