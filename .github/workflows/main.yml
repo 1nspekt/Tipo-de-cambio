@@ -20,8 +20,8 @@ jobs:
           python-version: '3.9'
 
       - name: Instalar librerías necesarias
-        # Agregamos 'yfinance' al final de esta línea
-        run: pip install requests yfinance
+        # Agregamos 'beautifulsoup4' para poder leer la página del DOF
+        run: pip install requests beautifulsoup4
 
       - name: Ejecutar el script main.py
         env:
