@@ -10,8 +10,8 @@ import json\
 from datetime import datetime\
 \
 # CONFIGURACI\'d3N\
-BANXICO_TOKEN = "TU_TOKEN_DE_BANXICO_AQUI"\
-TRMNL_WEBHOOK_URL = "TU_URL_DE_WEBHOOK_TRMNL_AQUI"\
+BANXICO_TOKEN = "fedf38ebb107e2291b915cb606e57a940f2dd8a37e76165e9c4b660881a6aab9"\
+TRMNL_WEBHOOK_URL = "https://trmnl.com/api/custom_plugins/64136d9c-0ce2-495f-b3fb-1544201df5a5"\
 \
 # IDs de series (USD FIX y Euro)\
 SERIES = "SF43718,SF46410"\
