@@ -24,7 +24,5 @@ jobs:
 
       - name: Ejecutar el script main.py
         env:
-          # Aquí conectamos los secretos de la caja fuerte con el código
-          BANXICO_TOKEN: ${{ secrets.BANXICO_TOKEN }}
           TRMNL_WEBHOOK_URL: ${{ secrets.TRMNL_WEBHOOK_URL }}
         run: python main.py
